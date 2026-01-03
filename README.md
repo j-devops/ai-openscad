@@ -31,20 +31,28 @@ AI-OpenSCAD is a full-stack web application that transforms natural language des
 git clone https://github.com/yourusername/ai-openscad.git
 cd ai-openscad
 
-# Copy environment template
-cp .env.example .env
-
-# Add your OpenAI API key to .env
-# Edit .env and set: OPENAI_API_KEY=sk-your-key-here
-
-# Start all services
-docker compose up -d
-
-# Wait ~30 seconds for services to initialize, then open:
-# http://localhost:4100
+# Start with the CLI
+./ai-openscad start
 ```
 
-That's it! The app is now running at **http://localhost:4100**
+The CLI will:
+1. Check for Docker and Docker Compose
+2. Create `.env` from template (if needed)
+3. Prompt for your OpenAI API key
+4. Build and start all services
+5. Open at **http://localhost:4100**
+
+### CLI Commands
+
+```bash
+./ai-openscad start          # Start all services
+./ai-openscad stop           # Stop all services
+./ai-openscad restart        # Restart all services
+./ai-openscad status         # Show service status
+./ai-openscad logs           # View all logs
+./ai-openscad logs backend   # View specific service logs
+./ai-openscad clean          # Remove all data and containers
+```
 
 ## 📖 Usage Examples
 

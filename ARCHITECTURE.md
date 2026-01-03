@@ -34,6 +34,38 @@ AI-OpenSCAD is a microservices-based application that transforms natural languag
                    └───────────────────┘
 ```
 
+## CLI Tool
+
+**File:** `ai-openscad` (bash script in project root)
+
+The `ai-openscad` CLI provides a simple interface for managing the application lifecycle:
+
+**Commands:**
+```bash
+./ai-openscad start      # Check dependencies, setup .env, start services
+./ai-openscad stop       # Stop all services
+./ai-openscad restart    # Restart all services
+./ai-openscad status     # Show service status (docker compose ps)
+./ai-openscad logs       # View all service logs
+./ai-openscad logs <service>   # View specific service logs
+./ai-openscad clean      # Remove all containers, volumes, and data
+./ai-openscad help       # Show help message
+```
+
+**Features:**
+- Validates Docker and Docker Compose installation
+- Creates `.env` from template if missing
+- Prompts for OpenAI API key during first run
+- Validates API key is set before starting
+- Color-coded output (green=success, red=error, yellow=warning)
+- Automatic service health checks
+
+**Implementation Notes:**
+- Uses `set -e` for fail-fast behavior
+- Project directory auto-detection via `${BASH_SOURCE[0]}`
+- Non-interactive cleanup requires confirmation
+- All commands run from project root directory
+
 ## Services
 
 ### 1. Frontend (React + Vite)
