@@ -1,0 +1,111 @@
+.preview-3d {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.preview-header {
+  padding: 0.75rem 1rem;
+  background: #1e293b;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-header h3 {
+  margin: 0;
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.download-button {
+  padding: 0.5rem 1rem;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.download-button:hover {
+  background: #2563eb;
+}
+
+.download-button:active {
+  background: #1d4ed8;
+}
+
+.preview-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
+  overflow: hidden;
+}
+
+.preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.preview-placeholder {
+  color: #64748b;
+  text-align: center;
+}
+
+.preview-placeholder p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.preview-hint {
+  font-size: 0.9rem !important;
+  color: #94a3b8 !important;
+}
+
+/* OpenSCAD-style axis labels - simple and clean */
+.scad-axis-label {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 2px;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.5px;
+}
+
+.scad-axis-x {
+  color: #ff4444;
+}
+
+.scad-axis-y {
+  color: #44ff44;
+}
+
+.scad-axis-z {
+  color: #4444ff;
+}
+
+/* OpenSCAD-style measurement labels - clean and subtle */
+.scad-tick-label {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 400;
+  color: #cccccc;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1px 3px;
+  border-radius: 2px;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  opacity: 0.85;
+}

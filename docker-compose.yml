@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "${NGINX_HTTP_PORT:-8080}:80"
+      - "${NGINX_HTTPS_PORT:-8443}:443"
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./data/renders:/var/www/renders:ro
+      - ./data/exports:/var/www/exports:ro
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${API_URL:-http://localhost:8100}
+        - VITE_WS_URL=${WS_URL:-ws://localhost:8100}
+    expose:
+      - "3000"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    expose:
+      - "8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ENVIRONMENT=production
+      - REDIS_URL=redis://redis:6379
+      - DATA_PATH=/app/data
+      - BACKEND_CORS_ORIGINS=${BACKEND_CORS_ORIGINS:-http://localhost}
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - redis
+      - render-service
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  render-service:
+    build:
+      context: ./render-service
+      dockerfile: Dockerfile
+    expose:
+      - "8002"
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATA_PATH=/app/data
+      - OPENSCAD_BINARY=/usr/bin/openscad
+      - RENDER_TIMEOUT=120
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - redis
+    networks:
+      - app-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+
+  redis:
+    image: redis:7-alpine
+    expose:
+      - "6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+volumes:
+  redis-data:
+
+networks:
+  app-network:
+    driver: bridge
