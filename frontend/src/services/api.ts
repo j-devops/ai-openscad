@@ -9,9 +9,18 @@ export const api = axios.create({
   },
 })
 
+export interface LLMSettings {
+  model?: string
+  temperature?: number
+  max_tokens?: number
+}
+
 export interface GenerateRequest {
   prompt: string
   style?: string
+  model?: string
+  temperature?: number
+  max_tokens?: number
 }
 
 export interface GenerateResponse {
@@ -31,9 +40,13 @@ export interface RenderResponse {
   stl_url?: string
 }
 
-export const generateCode = async (prompt: string): Promise<string> => {
+export const generateCode = async (
+  prompt: string,
+  llmSettings?: LLMSettings
+): Promise<string> => {
   const response = await api.post<GenerateResponse>('/api/v1/generate/', {
     prompt,
+    ...llmSettings,
   })
   return response.data.code
 }

@@ -14,12 +14,22 @@ class AIGenerator:
     def __init__(self):
         self.client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
 
-    async def generate_scad_code(self, prompt: str, style: str = "functional") -> str:
+    async def generate_scad_code(
+        self,
+        prompt: str,
+        style: str = "functional",
+        model: str | None = None,
+        temperature: float | None = None,
+        max_tokens: int | None = None
+    ) -> str:
         """Generate OpenSCAD code from natural language prompt
 
         Args:
             prompt: User's natural language description
             style: Code style preference (functional, minimal, verbose)
+            model: OpenAI model to use (default: gpt-4-turbo-preview)
+            temperature: Temperature for generation (default: 0.3)
+            max_tokens: Maximum tokens to generate (default: 2000)
 
         Returns:
             Generated OpenSCAD code as string
@@ -231,13 +241,13 @@ Always end with a module call or direct object creation. The last line MUST crea
             logger.info(f"Calling OpenAI API for code generation...")
 
             response = await self.client.chat.completions.create(
-                model="gpt-4-turbo-preview",
+                model=model or "gpt-4-turbo-preview",
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_message}
                 ],
-                temperature=0.3,  # Lower temperature for more consistent, predictable output
-                max_tokens=2000
+                temperature=temperature if temperature is not None else 0.3,
+                max_tokens=max_tokens or 2000
             )
 
             code = response.choices[0].message.content.strip()

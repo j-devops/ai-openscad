@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useSettingsStore } from '../../store/settingsStore'
 import './ChatInterface.css'
 
 export interface ChatMessage {
@@ -19,6 +20,7 @@ export default function ChatInterface({ currentCode, onCodeModified, onLog }: Ch
   const [input, setInput] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const { llm } = useSettingsStore()
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -54,7 +56,10 @@ export default function ChatInterface({ currentCode, onCodeModified, onLog }: Ch
           conversation_history: messages.map(m => ({
             role: m.role,
             content: m.content
-          }))
+          })),
+          model: llm.model,
+          temperature: llm.temperature,
+          max_tokens: llm.maxTokens
         })
       })
 

@@ -18,6 +18,9 @@ class GenerateRequest(BaseModel):
     """Code generation request model"""
     prompt: str
     style: str = "functional"
+    model: str | None = None
+    temperature: float | None = None
+    max_tokens: int | None = None
 
 
 class GenerateResponse(BaseModel):
@@ -33,7 +36,13 @@ async def generate_code(request: GenerateRequest):
         logger.info(f"Generating code for prompt: {request.prompt[:50]}...")
 
         # Generate code using AI
-        code = await ai_generator.generate_scad_code(request.prompt, request.style)
+        code = await ai_generator.generate_scad_code(
+            request.prompt,
+            request.style,
+            model=request.model,
+            temperature=request.temperature,
+            max_tokens=request.max_tokens
+        )
 
         # Validate generated code
         is_valid, errors = SecurityValidator.validate_scad_code(code)

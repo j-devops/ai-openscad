@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { generateCode } from '../../services/api'
+import { useSettingsStore } from '../../store/settingsStore'
 import './PromptInput.css'
 
 interface PromptInputProps {
@@ -11,6 +12,7 @@ export default function PromptInput({ onCodeGenerated, onLog }: PromptInputProps
   const [prompt, setPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const { llm } = useSettingsStore()
 
   const handleGenerate = async () => {
     if (!prompt.trim()) return
@@ -20,7 +22,7 @@ export default function PromptInput({ onCodeGenerated, onLog }: PromptInputProps
     onLog?.('info', `Generating new OpenSCAD code: "${prompt}"`)
 
     try {
-      const code = await generateCode(prompt)
+      const code = await generateCode(prompt, llm)
       onCodeGenerated(code)
       setPrompt('')
       onLog?.('success', `Generated ${code.length} characters of OpenSCAD code`)

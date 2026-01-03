@@ -26,6 +26,9 @@ class ChatRequest(BaseModel):
     message: str
     current_code: str
     conversation_history: List[ChatMessage] = []
+    model: Optional[str] = None
+    temperature: Optional[float] = None
+    max_tokens: Optional[int] = None
 
 
 class ChatResponse(BaseModel):
@@ -122,10 +125,10 @@ CURRENT CODE:
 
         # Call AI
         response = await ai_generator.client.chat.completions.create(
-            model="gpt-4-turbo-preview",
+            model=request.model or "gpt-4-turbo-preview",
             messages=messages,
-            temperature=0.4,
-            max_tokens=2000
+            temperature=request.temperature if request.temperature is not None else 0.4,
+            max_tokens=request.max_tokens or 2000
         )
 
         assistant_response = response.choices[0].message.content

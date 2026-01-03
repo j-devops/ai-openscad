@@ -10,6 +10,19 @@
   color: white;
   padding: 1rem 2rem;
   border-bottom: 2px solid #3b82f6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .app-header h1 {

@@ -4,6 +4,7 @@ import CodeEditor from './components/editor/CodeEditor'
 import Preview3D from './components/preview/Preview3D'
 import Console, { ConsoleMessage } from './components/console/Console'
 import ChatInterface from './components/chat/ChatInterface'
+import { SettingsPanel } from './components/settings/SettingsPanel'
 import './App.css'
 
 function App() {
@@ -48,8 +49,13 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>AI-OpenSCAD</h1>
-        <p>AI-Powered 3D Modeling Platform</p>
+        <div className="header-left">
+          <h1>AI-OpenSCAD</h1>
+          <p>AI-Powered 3D Modeling Platform</p>
+        </div>
+        <div className="header-right">
+          <SettingsPanel />
+        </div>
       </header>
 
       <main className="app-main">
