@@ -1,0 +1,56 @@
+.prompt-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.prompt-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.prompt-field {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+}
+
+.prompt-field:focus {
+  border-color: #3b82f6;
+}
+
+.prompt-field:disabled {
+  background: #f1f5f9;
+  cursor: not-allowed;
+}
+
+.generate-button {
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #10b981;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.generate-button:hover:not(:disabled) {
+  background: #059669;
+}
+
+.generate-button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
